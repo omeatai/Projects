@@ -61,7 +61,7 @@ const options = {
   url: "https://online-movie-database.p.rapidapi.com/auto-complete",
   params: { q: "game of thr" },
   headers: {
-    "X-RapidAPI-Key": "7990c02530mshdf87db921c2401fp1f5e29jsn311b5da7e4a6",
+    "X-RapidAPI-Key": "7990c02530mshd",
     "X-RapidAPI-Host": "online-movie-database.p.rapidapi.com",
   },
 };
@@ -80,7 +80,7 @@ axios
 const options = {
   method: "GET",
   headers: {
-    "X-RapidAPI-Key": "7990c02530mshdf87db921c2401fp1f5e29jsn311b5da7e4a6",
+    "X-RapidAPI-Key": "7990c02530mshd",
     "X-RapidAPI-Host": "online-movie-database.p.rapidapi.com",
   },
 };
