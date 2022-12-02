@@ -94,25 +94,77 @@ fetch(
   .catch((err) => console.error(err));
 ```
 
-```js
+App.js:
 
+```js
+import "./App.css";
+
+function App() {
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "7990c02530mshdf87db921c2401fp1f5e29jsn311b5da7e4a6",
+      "X-RapidAPI-Host": "online-movie-database.p.rapidapi.com",
+    },
+  };
+
+  fetch(
+    "https://online-movie-database.p.rapidapi.com/auto-complete?q=game%20of%20thr",
+    options
+  )
+    .then((response) => response.json())
+    .then((response) => console.log(response))
+    .catch((err) => console.error(err));
+
+  return (
+    <div className="App">
+      <h1>Hello</h1>
+    </div>
+  );
+}
+
+export default App;
 ```
 
 </details>
 
 <details>
-  <summary>3. sample</summary>
+  <summary>3. Create Search Input and Button</summary>
 
-```bs
-
-```
+App.js:
 
 ```js
+import "./App.css";
 
-```
+function App() {
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "7990c02530mshdf87db921c2401fp1f5e29jsn311b5da7e4a6",
+      "X-RapidAPI-Host": "online-movie-database.p.rapidapi.com",
+    },
+  };
 
-```js
+  fetch(
+    "https://online-movie-database.p.rapidapi.com/auto-complete?q=game%20of%20thr",
+    options
+  )
+    .then((response) => response.json())
+    .then((response) => console.log(response))
+    .catch((err) => console.error(err));
 
+  return (
+    <div className="App">
+      <h1>Movie Search</h1>
+      <form action="">
+        <input type="text" />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  );
+}
+
+export default App;
 ```
 
 </details>
