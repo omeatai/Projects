@@ -170,7 +170,7 @@ export default App;
 </details>
 
 <details>
-  <summary>4. Create State for Search</summary>
+  <summary>4. Create States for Search</summary>
 
 App.js:
 
@@ -180,19 +180,24 @@ import "./App.css";
 
 function App() {
   const [endPoint, setEndPoint] = useState("");
+  const [container, setContainer] = useState([]);
 
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Key": "7990c02530mshdf87db921c2401fp1f5e29jsn311b5da7e4a6",
+      "X-RapidAPI-Key": "7990c02530mshdf87d",
       "X-RapidAPI-Host": "online-movie-database.p.rapidapi.com",
     },
   };
 
-  // fetch('https://online-movie-database.p.rapidapi.com/auto-complete?q=game%20of%20thr', options)
-  //   .then(response => response.json())
-  //   .then(response => console.log(response))
-  //   .catch(err => console.error(err));
+  fetch(
+    "https://online-movie-database.p.rapidapi.com/auto-complete?q=game%20of%20thr",
+    options
+  )
+    .then((response) => response.json())
+    .then((response) => console.log(response))
+    .then((data) => setContainer(data))
+    .catch((err) => console.error(err));
 
   const onChangeHandler = (e) => {
     setEndPoint(e.target.value);
@@ -216,18 +221,63 @@ export default App;
 </details>
 
 <details>
-  <summary>5. sample</summary>
-
-```bs
-
-```
+  <summary>5. useQuery</summary>
 
 ```js
-
-```
-
-```js
-
+const {
+  data,
+  dataUpdatedAt,
+  error,
+  errorUpdatedAt,
+  failureCount,
+  failureReason,
+  isError,
+  isFetched,
+  isFetchedAfterMount,
+  isFetching,
+  isPaused,
+  isLoading,
+  isLoadingError,
+  isPlaceholderData,
+  isPreviousData,
+  isRefetchError,
+  isRefetching,
+  isStale,
+  isSuccess,
+  refetch,
+  remove,
+  status,
+  fetchStatus,
+} = useQuery({
+  queryKey,
+  queryFn,
+  cacheTime,
+  enabled,
+  networkMode,
+  initialData,
+  initialDataUpdatedAt,
+  keepPreviousData,
+  meta,
+  notifyOnChangeProps,
+  onError,
+  onSettled,
+  onSuccess,
+  placeholderData,
+  queryKeyHashFn,
+  refetchInterval,
+  refetchIntervalInBackground,
+  refetchOnMount,
+  refetchOnReconnect,
+  refetchOnWindowFocus,
+  retry,
+  retryOnMount,
+  retryDelay,
+  select,
+  staleTime,
+  structuralSharing,
+  suspense,
+  useErrorBoundary,
+});
 ```
 
 </details>
