@@ -51,14 +51,47 @@ export default App;
 </details>
 
 <details>
-  <summary>2. sample</summary>
+  <summary>2. Fetch Online Movie Database </summary>
 
-```bs
+```js
+const axios = require("axios");
 
+const options = {
+  method: "GET",
+  url: "https://online-movie-database.p.rapidapi.com/auto-complete",
+  params: { q: "game of thr" },
+  headers: {
+    "X-RapidAPI-Key": "7990c02530mshdf87db921c2401fp1f5e29jsn311b5da7e4a6",
+    "X-RapidAPI-Host": "online-movie-database.p.rapidapi.com",
+  },
+};
+
+axios
+  .request(options)
+  .then(function (response) {
+    console.log(response.data);
+  })
+  .catch(function (error) {
+    console.error(error);
+  });
 ```
 
 ```js
+const options = {
+  method: "GET",
+  headers: {
+    "X-RapidAPI-Key": "7990c02530mshdf87db921c2401fp1f5e29jsn311b5da7e4a6",
+    "X-RapidAPI-Host": "online-movie-database.p.rapidapi.com",
+  },
+};
 
+fetch(
+  "https://online-movie-database.p.rapidapi.com/auto-complete?q=game%20of%20thr",
+  options
+)
+  .then((response) => response.json())
+  .then((response) => console.log(response))
+  .catch((err) => console.error(err));
 ```
 
 ```js
