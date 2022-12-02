@@ -8,7 +8,7 @@ React Practice Projects
 
 ### [1-REACT API TUTORIAL - E-SIDE](#)
 
-+INTRODUCTION
++IMDB PROJECT:
 
 <details>
   <summary>1. Create React App</summary>
