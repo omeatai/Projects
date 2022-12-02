@@ -17,13 +17,52 @@ React Practice Projects
 npx create-react-app .
 ```
 
+index.js:
+
+```js
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+App.js:
+
+```js
+import "./App.css";
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Hello</h1>
+    </div>
+  );
+}
+
+export default App;
+```
+
 </details>
 
 <details>
-  <summary>2. Create React App</summary>
+  <summary>2. sample</summary>
 
-```bash
-npx create-react-app dojo-blog
+```bs
+
+```
+
+```js
+
+```
+
+```js
+
 ```
 
 </details>
