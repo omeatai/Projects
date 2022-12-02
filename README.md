@@ -170,18 +170,47 @@ export default App;
 </details>
 
 <details>
-  <summary>4. sample</summary>
+  <summary>4. Create State for Search</summary>
 
-```bs
-
-```
+App.js:
 
 ```js
+import React, { useState } from "react";
+import "./App.css";
 
-```
+function App() {
+  const [endPoint, setEndPoint] = useState("");
 
-```js
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "7990c02530mshdf87db921c2401fp1f5e29jsn311b5da7e4a6",
+      "X-RapidAPI-Host": "online-movie-database.p.rapidapi.com",
+    },
+  };
 
+  // fetch('https://online-movie-database.p.rapidapi.com/auto-complete?q=game%20of%20thr', options)
+  //   .then(response => response.json())
+  //   .then(response => console.log(response))
+  //   .catch(err => console.error(err));
+
+  const onChangeHandler = (e) => {
+    setEndPoint(e.target.value);
+  };
+
+  return (
+    <div className="App">
+      <h1>Movie Search</h1>
+      <h2>{endPoint}</h2>
+      <form action="">
+        <input type="text" onChange={onChangeHandler} value={endPoint} />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  );
+}
+
+export default App;
 ```
 
 </details>
