@@ -280,6 +280,72 @@ const {
 });
 ```
 
+```js
+export const App = ({ props }) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+      },
+    },
+  });
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {...restOfMyApp}
+    </QueryClientProvider>
+  );
+};
+```
+
+```js
+const client = useQueryClient();
+client.invalidateQueries(YOUR_CACHE_KEY, { refetchInactive: true });
+```
+
+```js
+// emulates a fetch (useQuery expects a Promise)
+const emulateFetch = (_) => {
+  return new Promise((resolve) => {
+    resolve([{ data: "ok" }]);
+  });
+};
+
+const handleClick = () => {
+  // manually refetch
+  refetch();
+};
+
+const { data, refetch } = useQuery("my_key", emulateFetch, {
+  refetchOnWindowFocus: false,
+  enabled: false, // disable this query from automatically running
+});
+
+return (
+  <div>
+    <button onClick={handleClick}>Click me</button>
+    {JSON.stringify(data)}
+  </div>
+);
+```
+
+```js
+// Get the user
+const { data: user } = useQuery(["user", email], getUserByEmail);
+
+// Then get the user's projects
+const { isIdle, data: projects } = useQuery(
+  ["projects", user.id],
+  getProjectsByUser,
+  {
+    // `user` would be `null` at first (falsy),
+    // so the query will not execute until the user exists
+    enabled: user,
+  }
+);
+```
+
 </details>
 
 <details>
