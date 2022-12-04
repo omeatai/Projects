@@ -539,6 +539,12 @@ public/index.html:
 
 </details>
 
+### [2-CHAT BOT - E-SIDE](#)
+
+Source: https://imdb-api.com/
+
+Video: https://www.youtube.com/watch?v=Li40L8tZcaI
+
 <details>
   <summary>7. sample</summary>
 
