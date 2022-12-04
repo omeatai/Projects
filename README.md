@@ -349,18 +349,88 @@ const { isIdle, data: projects } = useQuery(
 </details>
 
 <details>
-  <summary>6. sample</summary>
+  <summary>6. Completed Project</summary>
 
-```bs
-
-```
+index.js:
 
 ```js
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
 
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 ```
 
-```js
+App.js:
 
+```js
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "./App.css";
+import { Home } from "./pages/Home";
+
+function App() {
+  const client = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
+
+  return (
+    <div>
+      <QueryClientProvider client={client}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </Router>
+      </QueryClientProvider>
+    </div>
+  );
+}
+
+export default App;
+```
+
+styles.css:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+public/index.html:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>React App</title>
+  </head>
+  <body class="bg-[#334155] text-white">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
 ```
 
 </details>
