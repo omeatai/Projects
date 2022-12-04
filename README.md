@@ -225,6 +225,68 @@ export default App;
 <details>
   <summary>5. useQuery</summary>
 
+useQuery simple Usage:
+
+```js
+import { useEffect, useState } from "react";
+import {
+  QueryClient,
+  QueryClient Provider,
+  useQuery
+} from "@tanstack/react-query";
+import "./styles.css";
+
+export default function App() {
+  const client = new QueryClient ();
+
+  return (
+    <QueryClientProvider client={client}>
+      <div className="App">
+        <Cat />
+      </div>
+    </QueryClientProvider>
+  );
+}
+
+const Cat = () => {
+  const { data } = useQuery(["cat"], () =>
+    fetch("https://api.thecatapi.com/v1/images/search").then((res) =>
+      res.json() I
+    )
+  );
+
+  if (data) console.log(data);
+  return <div> </div>;
+};
+```
+
+useEffect Usage:
+
+```js
+import { useEffect, useState } from "react";
+import "./styles.css";
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  // Mounts -> Update -> Unmounting
+  useEffect(() => {
+    console.log("Updating");
+  }, [count]);
+
+  return (
+    <div className="App">
+      {count}
+      <button onClick={() => setCount((prev) => prev + 1)}>
+        Increase Count
+      </button>
+    </div>
+  );
+}
+```
+
+useQuery Properties:
+
 ```js
 const {
   data,
@@ -281,6 +343,8 @@ const {
   useErrorBoundary,
 });
 ```
+
+Other Examples:
 
 ```js
 export const App = ({ props }) => {
@@ -346,66 +410,6 @@ const { isIdle, data: projects } = useQuery(
     enabled: user,
   }
 );
-```
-
-useQuery simple Usage:
-
-```js
-import { useEffect, useState } from "react";
-import {
-  QueryClient,
-  QueryClient Provider,
-  useQuery
-} from "@tanstack/react-query";
-import "./styles.css";
-
-export default function App() {
-  const client = new QueryClient ();
-
-  return (
-    <QueryClientProvider client={client}>
-      <div className="App">
-        <Cat />
-      </div>
-    </QueryClientProvider>
-  );
-}
-
-const Cat = () => {
-  const { data } = useQuery (["cat"], () =>
-    fetch("https://api.thecatapi.com/v1/images/search").then((res) =>
-      res.json() I
-    )
-  );
-
-  if (data) console.log(data);
-  return <div> </div>;
-};
-```
-
-useEffect Usage:
-
-```js
-import { useEffect, useState } from "react";
-import "./styles.css";
-
-export default function App() {
-  const [count, setCount] = useState(0);
-
-  // Mounts -> Update -> Unmounting
-  useEffect(() => {
-    console.log("Updating");
-  }, [count]);
-
-  return (
-    <div className="App">
-      {count}
-      <button onClick={() => setCount((prev) => prev + 1)}>
-        Increase Count
-      </button>
-    </div>
-  );
-}
 ```
 
 </details>
