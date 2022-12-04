@@ -6,9 +6,7 @@ React Practice Projects
 
 ---
 
-### [1-REACT API TUTORIAL - E-SIDE](#)
-
-+MOVIE SEARCH PROJECT:
+### [1-MOVIE SEARCH APP: - E-SIDE](#)
 
 Source: https://imdb-api.com/
 
