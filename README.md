@@ -8,7 +8,9 @@ React Practice Projects
 
 ### [1-REACT API TUTORIAL - E-SIDE](#)
 
-+IMDB PROJECT:
++MOVIE SEARCH PROJECT:
+
+Source: https://imdb-api.com/
 
 <details>
   <summary>1. Create React App</summary>
