@@ -251,7 +251,7 @@ export default function App() {
 const Cat = () => {
   const { data } = useQuery(["cat"], () =>
     fetch("https://api.thecatapi.com/v1/images/search").then((res) =>
-      res.json() I
+      res.json()
     )
   );
 
