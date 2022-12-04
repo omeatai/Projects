@@ -12,6 +12,8 @@ React Practice Projects
 
 Source: https://imdb-api.com/
 
+Video: https://www.youtube.com/watch?v=Li40L8tZcaI
+
 <details>
   <summary>1. Create React App</summary>
 
