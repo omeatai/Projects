@@ -620,18 +620,41 @@ npx create-react-app .
 npm start
 ```
 
-```js
+Index.js:
 
+```js
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 ```
 
-```js
+App.js:
 
+```js
+import "./App.css";
+
+function App() {
+  return (
+    <div className="App">
+      <h1>App</h1>
+    </div>
+  );
+}
+
+export default App;
 ```
 
 </details>
 
 <details>
-  <summary>8. sample</summary>
+  <summary>8. Get Rapid API setup for Chat Bot</summary>
 
 ```bs
 
