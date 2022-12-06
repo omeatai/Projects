@@ -610,10 +610,14 @@ Source: https://imdb-api.com/
 Video: https://www.youtube.com/watch?v=Li40L8tZcaI
 
 <details>
-  <summary>7. sample</summary>
+  <summary>7. Install React App</summary>
 
 ```bs
+npx create-react-app .
+```
 
+```bs
+npm start
 ```
 
 ```js
