@@ -701,14 +701,46 @@ axios
 </details>
 
 <details>
-  <summary>9. sample</summary>
+  <summary>9. useQuery</summary>
 
 ```bs
-
+npm install @tanstack/react-query
+npm install axios
 ```
 
 ```js
+function Todos() {
+  const { isInitialLoading, isError, data, error, refetch, isFetching } =
+    useQuery({
+      queryKey: ["todos"],
+      queryFn: fetchTodoList,
+      enabled: false,
+    });
 
+  return (
+    <div>
+      <button onClick={() => refetch()}>Fetch Todos</button>
+
+      {data ? (
+        <>
+          <ul>
+            {data.map((todo) => (
+              <li key={todo.id}>{todo.title}</li>
+            ))}
+          </ul>
+        </>
+      ) : isError ? (
+        <span>Error: {error.message}</span>
+      ) : isInitialLoading ? (
+        <span>Loading...</span>
+      ) : (
+        <span>Not ready ...</span>
+      )}
+
+      <div>{isFetching ? "Fetching..." : null}</div>
+    </div>
+  );
+}
 ```
 
 ```js
