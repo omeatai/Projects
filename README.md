@@ -744,6 +744,61 @@ function Todos() {
 ```
 
 ```js
+function Todos() {
+  const [filter, setFilter] = React.useState('')
+
+  const { data } = useQuery({
+      queryKey: ['todos', filter],
+      queryFn: () => fetchTodos(filter),
+      // ⬇️ disabled as long as the filter is empty
+      enabled: !!filter
+  })
+
+  return (
+      <div>
+        // 🚀 applying the filter will enable and execute the query
+        <FiltersForm onApply={setFilter} />
+        {data && <TodosTable data={data}} />
+      </div>
+  )
+}
+```
+
+```js
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
+function Example() {
+  const query = useQuery({ queryKey: ["todos"], queryFn: fetchTodos });
+
+  return (
+    <div>
+      {query.isLoading
+        ? "Loading..."
+        : query.isError
+        ? "Error!"
+        : query.data
+        ? query.data.map((todo) => <div key={todo.id}>{todo.title}</div>)
+        : null}
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Example />
+    </QueryClientProvider>
+  );
+}
+```
+
+```js
 const {
   data,
   dataUpdatedAt,
