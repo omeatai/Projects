@@ -963,35 +963,168 @@ return (
 </details>
 
 <details>
-  <summary>10. sample</summary>
+  <summary>10. Completed Chat Bot 1 (without tailwindCSS)</summary>
 
-```bs
-
-```
+App.js:
 
 ```js
+import { useState, useEffect } from "react";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
+import axios from "axios";
+import "./App.css";
 
-```
+export default function App() {
+  const client = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
 
-```js
+  return (
+    <QueryClientProvider client={client}>
+      <div className="App">
+        <ChatBot />
+      </div>
+    </QueryClientProvider>
+  );
+}
 
+const ChatBot = () => {
+  const [started, setStarted] = useState(false);
+  const [info, setInfo] = useState("");
+  const [msg, setMsg] = useState("");
+  const [reply, setReply] = useState("");
+
+  const encodedParams = new URLSearchParams();
+  encodedParams.append("in", msg);
+  encodedParams.append("op", "in");
+  encodedParams.append("cbot", "1");
+  encodedParams.append("SessionID", "RapidAPI1");
+  encodedParams.append("cbid", "1");
+  encodedParams.append("key", "RHMN5hnQ4wTYZBGCF3dfxzypt68rVP");
+  encodedParams.append("ChatSource", "RapidAPI");
+  encodedParams.append("duration", "1");
+
+  const options = {
+    method: "POST",
+    url: "https://robomatic-ai.p.rapidapi.com/api",
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+      "X-RapidAPI-Key": "7990c02530mshdf87db921c2401fp1f5e29jsn311b5da7e4a6",
+      "X-RapidAPI-Host": "robomatic-ai.p.rapidapi.com",
+    },
+    data: encodedParams,
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    setStarted(true);
+    setMsg(info);
+    setInfo("");
+  };
+
+  const fetchData = () => {
+    return axios.request(options).then((res) => res.data);
+  };
+
+  const { data, isInitialLoading, isError, error, status, fetchStatus } =
+    useQuery({
+      queryKey: [msg],
+      queryFn: fetchData,
+      enabled: true,
+    });
+
+  useEffect(() => {
+    if (!started) {
+      setReply("Hi! Want to chat with me?");
+    } else if (data) {
+      setReply(data.out);
+    } else if (isError) {
+      setReply(`Sorry there was an Error: ${error.message}`);
+    } else if (isInitialLoading) {
+      setReply("Typing....");
+      const interval = setInterval(() => {
+        if (!data) {
+          setReply(
+            "Sorry, I'm not sure I got that right... Can you say something else."
+          );
+        }
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [data, isError, error, isInitialLoading, started]);
+
+  return (
+    <div>
+      <form onSubmit={submitHandler}>
+        <input
+          onChange={(e) => setInfo(e.target.value)}
+          type="text"
+          value={info}
+          placeholder="Say Something..."
+        />
+        <button>Chat</button>
+      </form>
+      <h1>Bot: {reply}</h1>
+      <h2>status: {status}</h2>
+      <h2>fetchStatus: {fetchStatus}</h2>
+    </div>
+  );
+};
 ```
 
 </details>
 
 <details>
-  <summary>11. sample</summary>
+  <summary>11. Setup TailwindCSS</summary>
 
 ```bs
-
+npx create-react-app my-project
+cd my-project
 ```
 
-```js
-
+```bs
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
 ```
 
-```js
+tailwind.config.js:
 
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+```
+
+index.css:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+```bs
+npm run start
+```
+
+App.js:
+
+```js
+export default function App() {
+  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+}
 ```
 
 </details>
