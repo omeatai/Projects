@@ -231,13 +231,13 @@ useQuery simple Usage:
 import { useEffect, useState } from "react";
 import {
   QueryClient,
-  QueryClient Provider,
-  useQuery
+  QueryClientProvider,
+  useQuery,
 } from "@tanstack/react-query";
 import "./styles.css";
 
 export default function App() {
-  const client = new QueryClient ();
+  const client = new QueryClient();
 
   return (
     <QueryClientProvider client={client}>
@@ -656,16 +656,46 @@ export default App;
 <details>
   <summary>8. Get Rapid API setup for Chat Bot</summary>
 
-```bs
-
-```
+Using Fetch:
 
 ```js
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '7990c02530mshdf87db921c2401fp1f5e29jsn311b5da7e4a6',
+		'X-RapidAPI-Host': 'chatbot-chatari.p.rapidapi.com'
+	}
+};
 
+fetch('https://chatbot-chatari.p.rapidapi.com/?message=%2FThat's%20funny!', options)
+	.then(response => response.json())
+	.then(response => console.log(response))
+	.catch(err => console.error(err));
 ```
 
-```js
+Using Axios:
 
+```js
+import axios from "axios";
+
+const options = {
+  method: "GET",
+  url: "https://chatbot-chatari.p.rapidapi.com/",
+  params: { message: "/That's funny!" },
+  headers: {
+    "X-RapidAPI-Key": "7990c02530mshdf87db921c2401fp1f5e29jsn311b5da7e4a6",
+    "X-RapidAPI-Host": "chatbot-chatari.p.rapidapi.com",
+  },
+};
+
+axios
+  .request(options)
+  .then(function (response) {
+    console.log(response.data);
+  })
+  .catch(function (error) {
+    console.error(error);
+  });
 ```
 
 </details>
