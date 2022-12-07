@@ -950,6 +950,16 @@ const {
 });
 ```
 
+```js
+return (
+  <div>
+    <h1>Bot: {reply}</h1>
+    <h2>status: {status}</h2> // loading -> success
+    <h2>fetchStatus: {fetchStatus}</h2> // fetching -> idle
+  </div>
+);
+```
+
 </details>
 
 <details>
