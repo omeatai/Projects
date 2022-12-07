@@ -1123,6 +1123,9 @@ index.css:
 
 ```bs
 npm run build-css
+npx tailwindcss -i ./src/styles.css -o ./public/styles.css --watch
+npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch
+
 npm run start
 ```
 
