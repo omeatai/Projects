@@ -1115,7 +1115,14 @@ index.css:
 @tailwind utilities;
 ```
 
+```js
+"scripts": {
+    "build-css": "tailwindcss build -i src/index.css -o public/index.css --watch"
+  },
+```
+
 ```bs
+npm run build-css
 npm run start
 ```
 
