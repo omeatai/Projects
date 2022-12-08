@@ -1140,18 +1140,15 @@ export default function App() {
 </details>
 
 <details>
-  <summary>12. sample</summary>
+  <summary>12. Install DOTENV</summary>
 
 ```bs
-
+npm install dotenv --save
 ```
 
-```js
-
-```
-
-```js
-
+```bs
+REACT_APP_KEY=RHMN5hnQ4wTYZBGCF
+#process.env.REACT_APP_KEY
 ```
 
 </details>
