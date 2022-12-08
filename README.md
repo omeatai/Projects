@@ -605,7 +605,7 @@ public/index.html:
 
 ### [2-CHAT BOT - E-SIDE](#)
 
-Source: https://imdb-api.com/
+Source: https://rapidapi.com/infradrive-infradrive-default/api/robomatic-ai/
 
 Video: https://www.youtube.com/watch?v=Li40L8tZcaI
 
@@ -1369,6 +1369,12 @@ npm install gh-pages --save-dev
 ```
 
 </details>
+
+### [3-WEATHER API APP - CODE COMMERCE](#)
+
+Source:
+
+Video: https://www.youtube.com/watch?v=gYCOWMbt31k
 
 <details>
   <summary>15. sample</summary>
