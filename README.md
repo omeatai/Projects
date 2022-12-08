@@ -1188,18 +1188,78 @@ REACT_APP_KEY=RHMN5hnQ4wTYZBGCF
 </details>
 
 <details>
-  <summary>15. sample</summary>
+  <summary>15. Deploy to Github</summary>
+
+Git:
 
 ```bs
+#Just follow next steps in console terminal ;)
+git init	#Initialize git in folder
+git add .	#add all files of folder to be pushed
+git commit -m "First commit"	#add first commit
+git remote add origin remote_repository_URL #replace with your remote repo url
+git remote -v	#verify that your remote repository url is properly found
+git branch -M main  #change main branch name to main
+git push --force origin main	#force pushing your project into github repo
 
+//make sure you're on the local branch, then:
+git pull origin YourRemoteBranch
+//which is the same as:
+git fetch origin YourRemoteBranch
+git merge origin/YourRemoteBranch
+
+git push origin --delete feature/login
+git push origin --delete master
+
+# Push newly created local branch to remote
+git push --set-upstream origin <branch name>
+git push --force origin main //force pushing to remote github repo
+git push -u origin new_branch
+
+github@branch/c/remote/push  (new-branch)
+git clone https://github.com/learn-git-fast/git-branch-examples.git
+cd git*
+git checkout -b new-branch
+
+github@branch/c/remote/push (new-branch)
+git branch -a
+touch devolution.jpg
+git add .
+git commit -m "Are we not gender neutral people? We are Devo?"
+git push --set-upstream origin new-branch
+
+git pull --rebase origin main
+# Resolve merge conflicts if needed
+git push origin main
 ```
 
-```js
+Github Pages:
 
+```bs
+echo "# my-project" >> README.md
+git init
+git add .
+# git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/machadop1487/my-project.git
+git push -u origin main
 ```
 
-```js
+```bs
+git remote add origin https://github.com/machadop1487/my-project.git
+git branch -M main
+git push -u origin main
+```
 
+```bs
+git remote -v
+git remote remove origin
+git remote add origin https://<your-username>:<token>@github.com/<username>/<repo-name>.git
+```
+
+```bs
+npm install gh-pages --save-dev
 ```
 
 </details>
