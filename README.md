@@ -1432,7 +1432,7 @@ export default function Home() {
 </details>
 
 <details>
-  <summary>16. sample</summary>
+  <summary>16. Open Weather Map API</summary>
 
 ```bs
 
