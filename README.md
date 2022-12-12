@@ -1386,12 +1386,47 @@ cd my-project
 npx create-next-app@latest .
 ```
 
-```js
-
+```bs
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
 ```
 
-```js
+tailwind.config.js:
 
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+```
+
+styles/globals.css:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+Start your dev process:
+
+```bs
+npm run dev
+```
+
+Start using Tailwind in your project:
+
+```js
+export default function Home() {
+  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+}
 ```
 
 </details>
