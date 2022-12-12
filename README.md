@@ -1435,15 +1435,142 @@ export default function Home() {
   <summary>16. Open Weather Map API</summary>
 
 ```bs
+https://openweathermap.org/api
+```
 
+API call:
+
+```bs
+https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+```
+
+Parameters:
+
+```bs
+lat, lon = (required)
+
+Geographical coordinates (latitude, longitude). If you need the geocoder to automatic convert city names and zip-codes to geo coordinates and the other way around, please use our Geocoding API.
+
+appid =	(required)
+
+Your unique API key (you can always find it on your account page under the "API key" tab)
+
+mode =	(optional)
+
+Response format. Possible values are xml and html. If you don't use the mode parameter format is JSON by default.
+
+units =	(optional)
+
+Units of measurement. standard, metric and imperial units are available. If you do not use the units parameter, standard units will be applied by default.
+
+lang = (optional)
+You can use this parameter to get the output in your language.
+```
+
+Example of API call:
+
+```bs
+https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid={API key}
 ```
 
 ```js
-
+// {
+//   "coord": {
+//     "lon": 10.99,
+//     "lat": 44.34
+//   },
+//   "weather": [
+//     {
+//       "id": 501,
+//       "main": "Rain",
+//       "description": "moderate rain",
+//       "icon": "10d"
+//     }
+//   ],
+//   "base": "stations",
+//   "main": {
+//     "temp": 298.48,
+//     "feels_like": 298.74,
+//     "temp_min": 297.56,
+//     "temp_max": 300.05,
+//     "pressure": 1015,
+//     "humidity": 64,
+//     "sea_level": 1015,
+//     "grnd_level": 933
+//   },
+//   "visibility": 10000,
+//   "wind": {
+//     "speed": 0.62,
+//     "deg": 349,
+//     "gust": 1.18
+//   },
+//   "rain": {
+//     "1h": 3.16
+//   },
+//   "clouds": {
+//     "all": 100
+//   },
+//   "dt": 1661870592,
+//   "sys": {
+//     "type": 2,
+//     "id": 2075663,
+//     "country": "IT",
+//     "sunrise": 1661834187,
+//     "sunset": 1661882248
+//   },
+//   "timezone": 7200,
+//   "id": 3163858,
+//   "name": "Zocca",
+//   "cod": 200
+// }
 ```
 
-```js
+Fields in API response:
 
+```bs
+coord
+    coord.lon = City geo location, longitude
+    coord.lat = City geo location, latitude
+weather (more info Weather condition codes)
+    weather.id = Weather condition id
+    weather.main = Group of weather parameters (Rain, Snow, Extreme etc.)
+    weather.description = Weather condition within the group. You can get the output in your language.
+    weather.icon = Weather icon id
+base - (Internal parameter)
+main
+    main.temp = Temperature. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
+    main.feels_like = Temperature. This temperature parameter accounts for the human perception of weather. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
+    main.pressure = Atmospheric pressure (on the sea level, if there is no sea_level or grnd_level data), hPa
+    main.humidity = Humidity, %
+    main.temp_min = Minimum temperature at the moment. This is minimal currently observed temperature (within large megalopolises and urban areas). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
+    main.temp_max = Maximum temperature at the moment. This is maximal currently observed temperature (within large megalopolises and urban areas). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
+    main.sea_level = Atmospheric pressure on the sea level, hPa
+    main.grnd_level = Atmospheric pressure on the ground level, hPa
+visibility - (Visibility, meter. The maximum value of the visibility is 10km)
+wind
+    wind.speed = Wind speed. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour.
+    wind.deg = Wind direction, degrees (meteorological)
+    wind.gust = Wind gust. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour
+clouds
+    clouds.all = Cloudiness, %
+rain
+    rain.1h = Rain volume for the last 1 hour, mm
+    rain.3h = Rain volume for the last 3 hours, mm
+snow
+    snow.1h = Snow volume for the last 1 hour, mm
+    snow.3h = Snow volume for the last 3 hours, mm
+dt - (Time of data calculation, unix, UTC)
+sys
+    sys.type = Internal parameter
+    sys.id = Internal parameter
+    sys.message = Internal parameter
+    sys.country = Country code (GB, JP etc.)
+    sys.sunrise = Sunrise time, unix, UTC
+    sys.sunset = Sunset time, unix, UTC
+timezone - (Shift in seconds from UTC)
+id - (City ID. Please note that built-in geocoder functionality has been deprecated.)
+name - (City name. Please note that built-in geocoder functionality has been deprecated.)
+cod - Internal parameter
 ```
 
 </details>
