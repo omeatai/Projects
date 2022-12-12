@@ -1573,14 +1573,91 @@ name - (City name. Please note that built-in geocoder functionality has been dep
 cod - Internal parameter
 ```
 
+Built-in API request by city name
+
+```bs
+https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+
+https://api.openweathermap.org/data/2.5/weather?q={city name},{country code}&appid={API key}
+
+https://api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid={API key}
+```
+
+Parameters:
+
+```bs
+q	= (required)
+City name, state code and country code divided by comma, Please, refer to ISO 3166 for the state codes or country codes. You can specify the parameter not only in English. In this case, the API response should be returned in the same language as the language of requested location name if the location is in our predefined list of more than 200,000 locations.
+
+appid	= (required)
+Your unique API key (you can always find it on your account page under the "API key" tab)
+
+mode	= (optional)
+Response format. Possible values are xml and html. If you don't use the mode parameter format is JSON by default.
+
+units	= (optional)
+Units of measurement. standard, metric and imperial units are available. If you do not use the units parameter, standard units will be applied by default.
+
+lang	= (optional)	You can use this parameter to get the output in your language.
+```
+
+Examples of API calls:
+
+```bs
+https://api.openweathermap.org/data/2.5/weather?q=London&appid={API key}
+
+https://api.openweathermap.org/data/2.5/weather?q=London,uk&appid={API key}
+```
+
+```js
+//  {
+//      "coord": {
+//        "lon": -0.13,
+//        "lat": 51.51
+//      },
+//      "weather": [
+//        {
+//          "id": 300,
+//          "main": "Drizzle",
+//          "description": "light intensity drizzle",
+//          "icon": "09d"
+//        }
+//      ],
+//      "base": "stations",
+//      "main": {
+//        "temp": 280.32,
+//        "pressure": 1012,
+//        "humidity": 81,
+//        "temp_min": 279.15,
+//        "temp_max": 281.15
+//      },
+//      "visibility": 10000,
+//      "wind": {
+//        "speed": 4.1,
+//        "deg": 80
+//      },
+//      "clouds": {
+//        "all": 90
+//      },
+//      "dt": 1485789600,
+//      "sys": {
+//        "type": 1,
+//        "id": 5091,
+//        "message": 0.0103,
+//        "country": "GB",
+//        "sunrise": 1485762037,
+//        "sunset": 1485794875
+//      },
+//      "id": 2643743,
+//      "name": "London",
+//      "cod": 200
+//      }
+```
+
 </details>
 
 <details>
   <summary>17. sample</summary>
-
-```bs
-
-```
 
 ```js
 
