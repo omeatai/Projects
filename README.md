@@ -1878,7 +1878,7 @@ yarn dev
 </details>
 
 <details>
-  <summary>21. Style Search Input</summary>
+  <summary>21. Create and Style Search Input</summary>
 
 pages/index.js:
 
