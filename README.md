@@ -1691,18 +1691,16 @@ export default function Home() {
 </details>
 
 <details>
-  <summary>18. sample</summary>
+  <summary>18. Install Axios and React-Icons Dependencies</summary>
 
 ```bs
-
+npm install axios
+npm install react-icons
 ```
 
-```js
-
-```
-
-```js
-
+```bs
+yarn add axios
+yarn add react-icons
 ```
 
 </details>
