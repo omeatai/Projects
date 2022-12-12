@@ -1377,10 +1377,13 @@ Source:
 Video: https://www.youtube.com/watch?v=gYCOWMbt31k
 
 <details>
-  <summary>15. sample</summary>
+  <summary>15. Install Tailwind CSS with Next.js</summary>
 
 ```bs
+npx create-next-app@latest my-project --typescript --eslint
+cd my-project
 
+npx create-next-app@latest .
 ```
 
 ```js
