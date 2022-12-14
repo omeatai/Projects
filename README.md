@@ -2639,6 +2639,38 @@ axios
   });
 ```
 
+Others:
+
+```js
+axios({
+  method: "get",
+  url: `https://api.someurl.com/subject/v2/resource/somevalue`,
+  withCredentials: false,
+  params: {
+    access_token: SECRET_TOKEN,
+  },
+});
+```
+
+```bs
+npm i cors
+
+const express = require('express')
+const app = express()
+app.use(cors())
+
+const cors = require('cors');
+app.use(cors());
+
+const cors = require('cors');
+app.use(cors({credentials: true, origin: 'http://localhost:5003'}));
+
+Access-Control-Allow-Origin: http://localhost:3000
+Access-Control-Allow-Origin: *
+
+headers: {"Access-Control-Allow-Origin": "*"}
+```
+
 </details>
 
 <details>
