@@ -2621,6 +2621,26 @@ axios({
   });
 ```
 
+```js
+const cityTimeURL = `https://www.timeapi.io/api/Time/current/coordinate?latitude=6.4550575&longitude=3.3941795`;
+
+// ### Get Time data ###
+axios
+  .get(cityTimeURL, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    },
+  })
+  .then((response) => {
+    console.log(response.data);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+```
+
 Get Weather Data:
 
 ```js
