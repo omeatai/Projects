@@ -2579,18 +2579,64 @@ export default Spinner;
 </details>
 
 <details>
-  <summary>27. sample</summary>
+  <summary>27. **Get Time and Weather Data</summary>
 
-```bs
+Get Time Data:
 
-```
-
-```bs
-
+```js
+// ### Get Time data ###
+axios
+  .get("https://www.timeapi.io/api/Time/current/coordinate", {
+    params: {
+      latitude: "6.4550575",
+      longitude: "3.3941795",
+    },
+    headers: {
+      accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  })
+  .then((response) => {
+    console.log(response.data);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 ```
 
 ```js
+const cityTimeURL = `https://www.timeapi.io/api/Time/current/coordinate?latitude=6.4550575&longitude=3.3941795`;
 
+// ### Get Time data ###
+axios({
+  method: "get",
+  url: cityTimeURL,
+  headers: { "Access-Control-Allow-Origin": "*" },
+})
+  .then((response) => {
+    console.log(response.data);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+```
+
+Get Weather Data:
+
+```js
+// ### Get Weather data ###
+axios
+  .get(weatherURL)
+  .then((response) => {
+    setWeather(response.data);
+    setCityGeo({ lat: response.data.coord.lat, lon: response.data.coord.lon });
+    console.log(cityGeo);
+  })
+  //.catch((err) => console.error(err))
+  .catch((err) => {
+    setWeather("");
+    err?.response.status === 404 && setErrorMessage(err);
+  });
 ```
 
 ```js
