@@ -2627,6 +2627,7 @@ const cityTimeURL = `https://www.timeapi.io/api/Time/current/coordinate?latitude
 // ### Get Time data ###
 axios
   .get(cityTimeURL, {
+    withCredentials: true,
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Credentials": true,
