@@ -2642,6 +2642,27 @@ axios
   });
 ```
 
+```js
+// ### Get Time data ###
+axios
+  .post(cityTimeURL, {
+    withCredentials: true,
+    responseType: "json",
+    timeout: 30000,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    },
+  })
+  .then((response) => {
+    console.log(response.data);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+```
+
 Get Weather Data:
 
 ```js
