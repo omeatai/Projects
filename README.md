@@ -2690,6 +2690,15 @@ Access-Control-Allow-Origin: http://localhost:3000
 Access-Control-Allow-Origin: *
 
 headers: {"Access-Control-Allow-Origin": "*"}
+
+app.use(
+  cors({
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: ['http://localhost:3000', 'http://localhost:3030'], // whatever ports you used in frontend
+  })
+);
 ```
 
 </details>
