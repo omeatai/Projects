@@ -3046,6 +3046,8 @@ index.css:
 
 ```bs
 npm run start
+
+yarn start
 ```
 
 index.js:
@@ -3067,8 +3069,6 @@ root.render(
 App.js:
 
 ```js
-import "./App.css";
-
 function App() {
   return (
     <div className="App">
