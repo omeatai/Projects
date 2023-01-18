@@ -3175,7 +3175,7 @@ export default Todo;
 
 Project:
 
-<img width="1047" alt="Screenshot 2023-01-18 at 17 40 45" src="https://user-images.githubusercontent.com/32337103/213241587-2d370853-04f8-493a-9923-597e446b34e1.png">
+![proj1](https://user-images.githubusercontent.com/32337103/213242102-d840beb4-a781-48c7-8fed-89a7df5a292c.png)
 
 </details>
 
