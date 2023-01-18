@@ -3180,14 +3180,34 @@ Project:
 </details>
 
 <details>
-  <summary>31. sample</summary>
+  <summary>31. Setup Firebase Platform</summary>
 
 ```bs
+yarn add firebase
 
+npm install firebase
 ```
 
-```bs
+firebase.js:
 
+```js
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "........",
+  authDomain: "........",
+  projectId: "........",
+  storageBucket: "........",
+  messagingSenderId: "........",
+  appId: "........",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 ```
 
 ```js
