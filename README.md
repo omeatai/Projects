@@ -3091,10 +3091,12 @@ index.css:
 </details>
 
 <details>
-  <summary>30. sample</summary>
+  <summary>30. Build Todo Components</summary>
+
+install react-icons:
 
 ```bs
-
+npm install react-icons --save
 ```
 
 ```bs
