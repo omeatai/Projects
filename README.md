@@ -3225,7 +3225,7 @@ Start collection -> Collection ID -> "todos"
 
 ![proj2](https://user-images.githubusercontent.com/32337103/213251517-1a4cfcc0-9300-4986-81cd-44c0e3412d77.png)
 
-![proj3](https://user-images.githubusercontent.com/32337103/213252072-988be3ec-c299-43ea-acdb-495580aa6fa9.png)
+![proj4](https://user-images.githubusercontent.com/32337103/213252813-55d989cf-4c27-43c2-90f2-1fb6bbbd5d1d.png)
 
 ```js
 
