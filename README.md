@@ -3222,6 +3222,8 @@ console.firebase.google.com -> Build -> Firestore Database -> Create Database
 - Example: Collection "users" would contain a unique document for each user
 
 Start collection -> Collection ID -> "todos"
+	
+![proj2](https://user-images.githubusercontent.com/32337103/213251517-1a4cfcc0-9300-4986-81cd-44c0e3412d77.png)
 
 ```js
 
