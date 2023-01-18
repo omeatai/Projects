@@ -3003,7 +3003,7 @@ Source:
 Video: https://www.youtube.com/watch?v=gYCOWMbt31k
 
 <details>
-  <summary>29. sample</summary>
+  <summary>29. Create Todo Project App</summary>
 
 ```bs
 
