@@ -3253,20 +3253,117 @@ db.collection("users").get().then((querySnapshot) => {
 });
 ```
 
-```js
+App.js:
 
+```bs
+  // Read todo from firebase
+  useEffect(() => {
+    const q = query(collection(db, "todos"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      let todosArr = [];
+      querySnapshot.forEach((doc) => {
+        todosArr.push({ ...doc.data(), id: doc.id });
+      });
+      setTodos(todosArr);
+    });
+    return () => unsubscribe();
+  }, []);
 ```
 
 ```js
+import React, { useState, useEffect } from "react";
+import { AiOutlinePlus } from "react-icons/ai";
+import Todo from "./Todo";
+import { db } from "./firebase";
+import { query, collection, onSnapshot } from "firebase/firestore";
 
+const style = {
+  bg: `h-screen w-screen p-4 bg-gradient-to-r from-[#2F80ED] to-[#1CB5E0]`,
+  container: `bg-slate-100 max-w-[500px] w-full m-auto rounded-md shadow-xl p-4`,
+  heading: `text-3xl font-bold text-center text-gray-800 p-2`,
+  form: `flex justify-between`,
+  input: `border p-2 w-full text-xl`,
+  button: `border p-4 ml-2 bg-purple-500 text-slate-100`,
+  count: `text-center p-2`,
+};
+
+function App() {
+  const [todos, setTodos] = useState([]);
+
+  // Create todo
+
+  // Read todo from firebase
+  useEffect(() => {
+    const q = query(collection(db, "todos"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      let todosArr = [];
+      querySnapshot.forEach((doc) => {
+        todosArr.push({ ...doc.data(), id: doc.id });
+      });
+      setTodos(todosArr);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Update todo in firebase
+  // Delete todo
+
+  return (
+    <div className={style.bg}>
+      <div className={style.container}>
+        <h3 className={style.heading}>Todo App</h3>
+        <form className={style.form}>
+          <input className={style.input} type="text" placeholder="Add Todo" />
+          <button className={style.button}>
+            <AiOutlinePlus size={30} />
+          </button>
+        </form>
+        <ul>
+          {todos.map((todo, index) => (
+            <Todo key={index} todo={todo} />
+          ))}
+        </ul>
+        <p className={style.count}>You have {todos.length} todos</p>
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
+
+Todo.jsx:
+
+```bs
+<p className={style.text}>{todo.task}</p>
 ```
 
 ```js
+import React from "react";
+import { FaRegTrashAlt } from "react-icons/fa";
 
-```
+const style = {
+  li: `flex justify-between bg-slate-200 p-4 my-2 capitalize`,
+  liComplete: `flex justify-between bg-slate-400 p-4 my-2 capitalize`,
+  row: `flex`,
+  text: `ml-2 cursor-pointer`,
+  textComplete: `ml-2 cursor-pointer line-through`,
+  button: `cursor-pointer flex items-center`,
+};
 
-```js
+const Todo = ({ todo }) => {
+  return (
+    <li className={style.li}>
+      <div className={style.row}>
+        <input type="checkbox" />
+        <p className={style.text}>{todo.task}</p>
+      </div>
+      <button> {<FaRegTrashAlt />}</button>
+    </li>
+  );
+};
 
+export default Todo;
 ```
 
 </details>
