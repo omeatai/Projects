@@ -3365,13 +3365,13 @@ const Todo = ({ todo }) => {
 
 export default Todo;
 ```
-	
-![proj5](https://user-images.githubusercontent.com/32337103/213258385-534439a7-c617-4cb2-89d9-1f4a6e712516.png)	
+
+![proj5](https://user-images.githubusercontent.com/32337103/213258385-534439a7-c617-4cb2-89d9-1f4a6e712516.png)
 
 </details>
 
 <details>
-  <summary>33. sample</summary>
+  <summary>33. Todo CRUD - Update Todo from Firebase</summary>
 
 ```bs
 
