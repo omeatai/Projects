@@ -3006,27 +3006,54 @@ Video: https://www.youtube.com/watch?v=gYCOWMbt31k
   <summary>29. Create Todo Project App</summary>
 
 ```bs
-
+https://tailwindcss.com/docs/guides/create-react-app
 ```
 
 ```bs
+yarn create-react-app todo-react-app
 
+npx create-react-app todo-react-app
+cd my-project
 ```
 
-```js
-
+```bs
+npm install -D tailwindcss
+npx tailwindcss init
 ```
 
-```js
+tailwind.config.js:
 
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
 ```
 
-```js
+Add the Tailwind directives to your CSS -
 
+index.css:
+
+```bs
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 ```
 
-```js
+```bs
+npm run start
+```
 
+App.js:
+
+```js
+export default function App() {
+  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+}
 ```
 
 </details>
