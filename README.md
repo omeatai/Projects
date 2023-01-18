@@ -3227,33 +3227,30 @@ Start collection -> Collection ID -> "todos"
 
 ![proj4](https://user-images.githubusercontent.com/32337103/213252813-55d989cf-4c27-43c2-90f2-1fb6bbbd5d1d.png)
 
-```js
-
-```
-
-```js
-
-```
-
-```js
-
-```
-
-```js
-
-```
-
 </details>
 
 <details>
-  <summary>32. sample</summary>
+  <summary>32. Todo CRUD - Read Todo from Firebase</summary>
+
+Web version 9:
 
 ```bs
+import { collection, getDocs } from "firebase/firestore";
 
+const querySnapshot = await getDocs(collection(db, "users"));
+querySnapshot.forEach((doc) => {
+  console.log(`${doc.id} => ${doc.data()}`);
+});
 ```
 
-```bs
+Web version 8:
 
+```bs
+db.collection("users").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data()}`);
+    });
+});
 ```
 
 ```js
