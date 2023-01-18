@@ -3230,7 +3230,7 @@ Start collection -> Collection ID -> "todos"
 </details>
 
 <details>
-  <summary>32. Todo CRUD - Read Todo from Firebase</summary>
+  <summary>32. CRUD - Read Todo from Firebase</summary>
 
 Web version 9:
 
@@ -3371,7 +3371,7 @@ export default Todo;
 </details>
 
 <details>
-  <summary>33. Todo CRUD - Update Todo from Firebase</summary>
+  <summary>33. CRUD - Update Todo from Firebase</summary>
 
 ```bs
 
