@@ -3488,6 +3488,8 @@ const Todo = ({ todo, toggleComplete }) => {
 
 export default Todo;
 ```
+	
+![proj6](https://user-images.githubusercontent.com/32337103/213406204-9ecbdbf9-3859-4886-8c19-0045cae256ac.png)	
 
 </details>
 
