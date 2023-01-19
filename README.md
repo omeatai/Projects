@@ -3866,7 +3866,7 @@ export default Todo;
 </details>
 
 <details>
-  <summary>36. Order and limit data</summary>
+  <summary>36. Order and Limit data</summary>
 
 - By default, a query retrieves all documents that satisfy the query in ascending order by document ID.
 - You can specify the sort order for your data using orderBy(), and you can limit the number of documents retrieved using limit().
