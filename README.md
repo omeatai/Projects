@@ -3926,8 +3926,6 @@ citiesRef.where("population", ">", 100000).orderBy("population").limit(2);
 
 Limitations:
 
-- However, if you have a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field.
-
 - An orderBy() clause also filters for existence of the given fields. The result set will not include documents that do not contain the given fields.
 
 - If you include a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field.
