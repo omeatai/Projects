@@ -3860,36 +3860,88 @@ const Todo = ({ todo, toggleComplete, deleteTodo }) => {
 
 export default Todo;
 ```
-	
+
 ![proj8](https://user-images.githubusercontent.com/32337103/213422648-63214724-4a0d-44f9-bab9-fd09667cfdf7.png)
 
 </details>
 
 <details>
-  <summary>36. sample</summary>
+  <summary>36. Order and limit data</summary>
+
+- By default, a query retrieves all documents that satisfy the query in ascending order by document ID.
+- You can specify the sort order for your data using orderBy(), and you can limit the number of documents retrieved using limit().
+- Note: An orderBy() clause also filters for existence of the given field. The result set will not include documents that do not contain the given field.
+
+For example, you could query for the first 3 cities alphabetically with:
 
 ```bs
+import { query, orderBy, limit } from "firebase/firestore";
 
+const q = query(citiesRef, orderBy("name"), limit(3));
 ```
 
 ```bs
-
+citiesRef.orderBy("name").limit(3);
 ```
 
-```js
+You could also sort in descending order to get the last 3 cities:
 
+```bs
+import { query, orderBy, limit } from "firebase/firestore";
+
+const q = query(citiesRef, orderBy("name", "desc"), limit(3));
 ```
 
-```js
-
+```bs
+citiesRef.orderBy("name", "desc").limit(3);
 ```
 
-```js
+- You can also order by multiple fields.
 
+For example, if you wanted to order by state, and within each state order by population in descending order:
+
+```bs
+import { query, orderBy } from "firebase/firestore";
+
+const q = query(citiesRef, orderBy("state"), orderBy("population", "desc"));
 ```
 
-```js
+```bs
+citiesRef.orderBy("state").orderBy("population", "desc");
+```
 
+- You can combine where() filters with orderBy() and limit().
+
+In the following example, the queries define a population threshold, sort by population in ascending order, and return only the first few results that exceed the threshold:
+
+```bs
+import { query, where, orderBy, limit } from "firebase/firestore";
+
+const q = query(citiesRef, where("population", ">", 100000), orderBy("population"), limit(2));
+```
+
+```bs
+citiesRef.where("population", ">", 100000).orderBy("population").limit(2);
+```
+
+Limitations:
+
+- However, if you have a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field.
+
+- An orderBy() clause also filters for existence of the given fields. The result set will not include documents that do not contain the given fields.
+
+- If you include a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field.
+
+- You cannot order your query by any field included in an equality (=) or in clause.
+
+```bs
+import { query, where, orderBy } from "firebase/firestore";
+
+const q = query(citiesRef, where("population", ">", 100000), orderBy("population"));
+```
+
+```bs
+citiesRef.where("population", ">", 100000).orderBy("population");
 ```
 
 </details>
