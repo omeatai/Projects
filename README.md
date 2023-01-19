@@ -3657,13 +3657,13 @@ const Todo = ({ todo, toggleComplete }) => {
 
 export default Todo;
 ```
-	
-![proj7](https://user-images.githubusercontent.com/32337103/213413904-04aaaf61-9455-4ca1-9dca-2e7972fea8f6.png)	
+
+![proj7](https://user-images.githubusercontent.com/32337103/213413904-04aaaf61-9455-4ca1-9dca-2e7972fea8f6.png)
 
 </details>
 
 <details>
-  <summary>35. sample</summary>
+  <summary>35. CRUD - DELETE Todo from Firebase</summary>
 
 ```bs
 
