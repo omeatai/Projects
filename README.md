@@ -8,10 +8,6 @@ React Practice Projects
 
 ### [1-MOVIE SEARCH APP - E-SIDE](#)
 
-Source: https://imdb-api.com/
-
-Video: https://www.youtube.com/watch?v=Li40L8tZcaI
-
 <details>
   <summary>1. Create React App</summary>
 
