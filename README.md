@@ -3216,6 +3216,16 @@ Start collection -> Collection ID -> "todos"
 <details>
   <summary>32. CRUD - Read Todo from Firebase</summary>
 
+Web version 8:
+
+```bs
+db.collection("users").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data()}`);
+    });
+});
+```
+
 Web version 9:
 
 ```bs
@@ -3224,16 +3234,6 @@ import { collection, getDocs } from "firebase/firestore";
 const querySnapshot = await getDocs(collection(db, "users"));
 querySnapshot.forEach((doc) => {
   console.log(`${doc.id} => ${doc.data()}`);
-});
-```
-
-Web version 8:
-
-```bs
-db.collection("users").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
-    });
 });
 ```
 
@@ -3495,6 +3495,39 @@ export default Todo;
 
 <details>
   <summary>34. CRUD - Create/ADD Todo from Firebase</summary>
+
+Web version 8:
+
+```bs
+db.collection("users").add({
+    first: "Ada",
+    last: "Lovelace",
+    born: 1815
+})
+.then((docRef) => {
+    console.log("Document written with ID: ", docRef.id);
+})
+.catch((error) => {
+    console.error("Error adding document: ", error);
+});
+```
+
+Web version 9:
+
+```bs
+import { collection, addDoc } from "firebase/firestore";
+
+try {
+  const docRef = await addDoc(collection(db, "users"), {
+    first: "Ada",
+    last: "Lovelace",
+    born: 1815
+  });
+  console.log("Document written with ID: ", docRef.id);
+} catch (e) {
+  console.error("Error adding document: ", e);
+}
+```
 
 ```bs
 import {
