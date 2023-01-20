@@ -4023,6 +4023,22 @@ plugins: [
 ],
 ```
 
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [
+    function ({ addVariant }) {
+      addVariant("child", "& > *");
+      addVariant("child-hover", "& > *:hover");
+    },
+  ],
+};
+```
+
 ```bs
 <div class="child:text-gray-200 child-hover:text-blue-500">...</div>
 ```
@@ -4031,10 +4047,6 @@ plugins: [
 
 <details>
   <summary>39. sample</summary>
-
-```bs
-
-```
 
 ```bs
 
