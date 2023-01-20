@@ -3945,10 +3945,32 @@ citiesRef.where("population", ">", 100000).orderBy("population");
 </details>
 
 <details>
-  <summary>37. sample</summary>
+  <summary>37. Completed Project</summary>
 
-```bs
+config/firebase.js:
 
+```js
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_APIKEY,
+  authDomain: process.env.REACT_APP_AUTHDOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APPID,
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+// Initialize Cloud Firestore and get a reference to the service
+export const db = getFirestore(app);
 ```
 
 ```bs
@@ -3974,30 +3996,35 @@ citiesRef.where("population", ">", 100000).orderBy("population");
 </details>
 
 <details>
-  <summary>38. sample</summary>
+  <summary>38. **TailwindCSS direct children Config</summary>
+
+If you want to access the direct children of div with selector, please use @layer directive. see below:
 
 ```bs
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+@layer base {
+  div.section > div {
+    @apply text-xl;
+  }
+}
+```
+
+I use these simple lines in tailwind.config.js to give me child and child-hover options.
+
+```bs
+plugins: [
+    function ({ addVariant }) {
+        addVariant('child', '& > *');
+        addVariant('child-hover', '& > *:hover');
+    }
+],
 ```
 
 ```bs
-
-```
-
-```js
-
-```
-
-```js
-
-```
-
-```js
-
-```
-
-```js
-
+<div class="child:text-gray-200 child-hover:text-blue-500">...</div>
 ```
 
 </details>
