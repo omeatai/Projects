@@ -3979,24 +3979,839 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 ```
 
+context/AppContext.js:
+
+```js
+//import React dependencies
+import { useState, useEffect, createContext } from "react";
+
+//import Firebase dependencies
+import {
+  query,
+  collection,
+  onSnapshot,
+  updateDoc,
+  doc,
+  addDoc,
+  deleteDoc,
+} from "firebase/firestore";
+
+//import Firebase configuration
+import { db } from "../config/firebase";
+
+//import Firebase CRUD Hooks (Actions)
+import createTodoAction from "../hooks/createTodoAction";
+import readTodoAction from "../hooks/readTodoAction";
+import updateTodoAction from "../hooks/updateTodoAction";
+import deleteTodoAction from "../hooks/deleteTodoAction";
+import readTodoLocalAction from "../hooks/readTodoLocalAction";
+import createTodoLocalAction from "../hooks/createTodoLocalAction";
+import updateTodoLocalAction from "../hooks/updateTodoLocalAction";
+import deleteTodoLocalAction from "../hooks/deleteTodoLocalAction";
+
+//Tailwindcss (for styling)
+const style = {
+  bg: `h-screen w-screen p-4 bg-gradient-to-r from-[#6a85b6] to-[#80d0c7]`,
+  bgDark: `h-screen w-screen p-4 bg-[#000000]`,
+  container: `bg-slate-100 max-w-[500px] w-full m-auto rounded-md shadow-xl p-4`,
+  containerDark: `bg-[#353a49] max-w-[500px] w-full m-auto rounded-md shadow-xl p-4`,
+  heading: `text-3xl font-bold text-center text-gray-800 p-2`,
+  headingDark: `text-3xl font-bold text-center text-gray-100 p-2`,
+  form: `flex justify-between`,
+  input: `border p-2 w-full text-xl`,
+  button: `border p-4 ml-2 bg-[#6a85b6] text-slate-100`,
+  buttonDark: `border p-4 ml-2 bg-[#555d75] text-slate-100`,
+  count: `text-center p-2`,
+  countDark: `text-center p-2 text-white`,
+  nav: `flex flex-row items-center justify-end child:ml-4`,
+  navDark: `flex flex-row items-center justify-end child:ml-4 bg-gray-300 mb-2`,
+  navSection: `flex flex-row items-center child:mx-1`,
+  hr: `w-full h-1 bg-gray-200 border-0 rounded`,
+  hrDark: `w-full h-1 bg-gray-500 border-0 rounded dark:bg-gray-500`,
+};
+
+//Create App Context API
+const AppContext = createContext({});
+
+//Create App Parent Provider to store context
+export const AppProvider = ({ children }) => {
+  const [darkMode, setDarkMode] = useState(false);
+  const [isLocal, setIsLocal] = useState(false);
+  const [todos, setTodos] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
+  // Create todo in firebase
+  const createTodo = (e) => {
+    isLocal
+      ? createTodoLocalAction(e, todos, setTodos, inputValue, setInputValue)
+      : createTodoAction(e, inputValue, setInputValue, addDoc, collection, db);
+  };
+
+  // Read todo from firebase
+  useEffect(() => {
+    isLocal
+      ? readTodoLocalAction(setTodos)
+      : readTodoAction(setTodos, query, collection, db, onSnapshot);
+  }, [isLocal]);
+
+  // Update todo in firebase
+  const toggleComplete = (todo) => {
+    isLocal
+      ? updateTodoLocalAction(todo, todos, setTodos)
+      : updateTodoAction(todo, updateDoc, doc, db);
+  };
+
+  // Delete todo in firebase
+  const deleteTodo = (id) => {
+    isLocal
+      ? deleteTodoLocalAction(id, todos, setTodos)
+      : deleteTodoAction(id, deleteDoc, doc, db);
+  };
+
+  return (
+    <AppContext.Provider
+      value={{
+        style,
+        darkMode,
+        setDarkMode,
+        isLocal,
+        setIsLocal,
+        todos,
+        setTodos,
+        inputValue,
+        setInputValue,
+        createTodo,
+        toggleComplete,
+        deleteTodo,
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
+};
+
+export default AppContext;
+```
+
+App.js:
+
+```js
+import { AppProvider } from "./context/AppContext";
+import Home from "./components/Home";
+
+//App
+function App() {
+  return (
+    <AppProvider>
+      <Home />
+    </AppProvider>
+  );
+}
+
+export default App;
+```
+
+components/Home.jsx:
+
+```js
+import React, { useContext } from "react";
+import Header from "./Header";
+import AddTodo from "./AddTodo";
+import ListTodo from "./ListTodo";
+import Footer from "./Footer";
+import Nav from "./Nav";
+
+import AppContext from "../context/AppContext";
+
+//Home component
+const Home = () => {
+  const { style, darkMode } = useContext(AppContext);
+  return (
+    <React.Fragment>
+      <div className={darkMode ? style.bgDark : style.bg}>
+        <div className={darkMode ? style.containerDark : style.container}>
+          <Header />
+          <Nav />
+          <AddTodo />
+          <ListTodo />
+          <Footer />
+        </div>
+      </div>
+    </React.Fragment>
+  );
+};
+
+export default Home;
+```
+
+components/Header.jsx:
+
+```js
+import { useContext } from "react";
+import AppContext from "../context/AppContext";
+
+const Header = () => {
+  const { style, darkMode } = useContext(AppContext);
+  return (
+    <header>
+      <h3 className={darkMode ? style.headingDark : style.heading}>
+        Firebase Todo App
+      </h3>
+      <hr className={darkMode ? style.hrDark : style.hr} />
+    </header>
+  );
+};
+
+export default Header;
+```
+
+components/Nav.jsx:
+
+```js
+import { useContext } from "react";
+import { SelectMode, SelectStorage } from "./molecules";
+import AppContext from "../context/AppContext";
+
+const Nav = () => {
+  const { style, darkMode } = useContext(AppContext);
+  return (
+    <nav className={darkMode ? style.navDark : style.nav}>
+      <SelectStorage />
+      <SelectMode />
+    </nav>
+  );
+};
+
+export default Nav;
+```
+
+components/AddTodo.jsx:
+
+```js
+import { useContext } from "react";
+import { AiOutlinePlus } from "react-icons/ai";
+import AppContext from "../context/AppContext";
+
+const AddTodo = () => {
+  const { style, darkMode, createTodo, inputValue, setInputValue } =
+    useContext(AppContext);
+  return (
+    <form onSubmit={createTodo} className={style.form}>
+      <input
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        className={style.input}
+        type="text"
+        placeholder="Add Todo"
+      />
+      <button className={darkMode ? style.buttonDark : style.button}>
+        <AiOutlinePlus size={30} />
+      </button>
+    </form>
+  );
+};
+
+export default AddTodo;
+```
+
+components/ListTodo.jsx:
+
+```js
+import { useContext } from "react";
+import Todo from "./Todo";
+import AppContext from "../context/AppContext";
+
+const ListTodo = () => {
+  const { todos } = useContext(AppContext);
+  return (
+    <ul>
+      {todos.map((todo, index) => (
+        <Todo key={index} todo={todo} />
+      ))}
+    </ul>
+  );
+};
+
+export default ListTodo;
+```
+
+components/Todo.jsx:
+
+```js
+import { useContext } from "react";
+import { FaRegTrashAlt } from "react-icons/fa";
+import AppContext from "../context/AppContext";
+
+const style = {
+  li: `flex justify-between bg-slate-200 p-4 my-2 capitalize`,
+  liComplete: `flex justify-between bg-[#80d0c7] p-4 my-2 capitalize`,
+  liCompleteDark: `flex justify-between bg-[#373c4b] p-4 my-2 capitalize border-2 border-slate-300 rounded-lg`,
+  row: `flex`,
+  text: `ml-2 cursor-pointer`,
+  textComplete: `ml-2 cursor-pointer line-through`,
+  textCompleteDark: `ml-2 cursor-pointer line-through text-slate-200`,
+  button: `cursor-pointer flex items-center`,
+};
+
+const Todo = ({ todo }) => {
+  const { darkMode, toggleComplete, deleteTodo } = useContext(AppContext);
+  return (
+    <li
+      className={
+        todo.completed && darkMode
+          ? style.liCompleteDark
+          : todo.completed
+          ? style.liComplete
+          : style.li
+      }
+    >
+      <div className={style.row}>
+        <input
+          onChange={() => toggleComplete(todo)}
+          type="checkbox"
+          checked={todo.completed ? "checked" : ""}
+        />
+        <p
+          onClick={() => toggleComplete(todo)}
+          className={
+            todo.completed && darkMode
+              ? style.textCompleteDark
+              : todo.completed
+              ? style.textComplete
+              : style.text
+          }
+        >
+          {todo.task}
+        </p>
+      </div>
+      <button onClick={() => deleteTodo(todo.id)}> {<FaRegTrashAlt />}</button>
+    </li>
+  );
+};
+
+export default Todo;
+```
+
+components/Footer.jsx:
+
+```js
+import { useContext } from "react";
+import AppContext from "../context/AppContext";
+
+const Footer = () => {
+  const { style, darkMode, todos } = useContext(AppContext);
+  return todos.length < 1 ? null : (
+    <footer>
+      <p className={darkMode ? style.countDark : style.count}>
+        You have {todos.length} todos
+      </p>
+    </footer>
+  );
+};
+
+export default Footer;
+```
+
+Atoms -
+
+components/atoms/index.js:
+
+```js
+// export { ReactComponent as ButtonOneOn } from "./ButtonOneOn.svg";
+export { Button } from "./Button";
+export { ToggleMoon } from "./ToggleMoon";
+export { ToggleSun } from "./ToggleSun";
+export { ToggleCloud } from "./ToggleCloud";
+export { ToggleLocal } from "./ToggleLocal";
+```
+
+components/atoms/Button.jsx:
+
+```js
+import React from "react";
+import PropTypes from "prop-types";
+
+export const Button = ({ height, width, colorON, colorOFF, toggle }) => {
+  let btnTransform = "scale(1 1)";
+  let color = colorON;
+  if (!["ON", "on"].includes(toggle)) {
+    btnTransform = "scale(-1 1)";
+    color = colorOFF;
+  }
+
+  return (
+    <svg
+      stroke={color}
+      fill={color}
+      transform={btnTransform}
+      strokeWidth="0"
+      viewBox="0 0 512 512"
+      height={height}
+      width={width}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M368 112H144C64.6 112 0 176.6 0 256s64.6 144 144 144h224c79.4 0 144-64.6 144-144s-64.6-144-144-144zm0 256a112 112 0 11112-112 112.12 112.12 0 01-112 112z"></path>
+    </svg>
+  );
+};
+
+Button.propTypes = {
+  height: PropTypes.string.isRequired,
+  width: PropTypes.string.isRequired,
+  colorON: PropTypes.string.isRequired,
+  colorOFF: PropTypes.string.isRequired,
+  toggle: PropTypes.string.isRequired,
+};
+```
+
+components/atoms/ToggleCloud.jsx:
+
+```js
+import React from "react";
+import PropTypes from "prop-types";
+
+export const ToggleCloud = ({ size }) => {
+  return (
+    <svg
+      stroke="#000"
+      fill="#000"
+      strokeWidth="0"
+      viewBox="0 0 16 16"
+      height={size}
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"
+      ></path>
+      <path
+        fillRule="evenodd"
+        d="M7.646 4.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V14.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3z"
+      ></path>
+    </svg>
+  );
+};
+
+ToggleCloud.propTypes = {
+  size: PropTypes.string.isRequired,
+};
+```
+
+components/atoms/ToggleLocal.jsx:
+
+```js
+import React from "react";
+import PropTypes from "prop-types";
+
+export const ToggleLocal = ({ size }) => {
+  return (
+    <svg
+      stroke="#000"
+      fill="#000"
+      strokeWidth="0"
+      viewBox="0 0 24 24"
+      height={size}
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path fill="none" d="M0 0h24v24H0V0z"></path>
+      <path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path>
+    </svg>
+  );
+};
+
+ToggleLocal.propTypes = {
+  size: PropTypes.string.isRequired,
+};
+```
+
+components/atoms/ToggleMoon.jsx:
+
+```js
+import React from "react";
+import PropTypes from "prop-types";
+
+export const ToggleMoon = ({ size, color }) => {
+  return (
+    <svg
+      stroke={color}
+      fill={color}
+      strokeWidth="0"
+      viewBox="0 0 512 512"
+      height={size}
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M283.211 512c78.962 0 151.079-35.925 198.857-94.792 7.068-8.708-.639-21.43-11.562-19.35-124.203 23.654-238.262-71.576-238.262-196.954 0-72.222 38.662-138.635 101.498-174.394 9.686-5.512 7.25-20.197-3.756-22.23A258.156 258.156 0 0 0 283.211 0c-141.309 0-256 114.511-256 256 0 141.309 114.511 256 256 256z"></path>
+    </svg>
+  );
+};
+
+ToggleMoon.propTypes = {
+  size: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+};
+```
+
+components/atoms/ToggleSun.jsx:
+
+```js
+import React from "react";
+import PropTypes from "prop-types";
+
+export const ToggleSun = ({ size, color }) => {
+  return (
+    <svg
+      stroke={color}
+      fill={color}
+      strokeWidth="0"
+      viewBox="0 0 16 16"
+      height={size}
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path>
+    </svg>
+  );
+};
+
+ToggleSun.propTypes = {
+  size: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+};
+```
+
+Molecules -
+
+components/molecules/index.js:
+
+```js
+export { SelectStorage } from "./SelectStorage";
+export { SelectMode } from "./SelectMode";
+```
+
+components/molecules/SelectMode.jsx:
+
+```js
+import { useContext } from "react";
+import { Button, ToggleMoon, ToggleSun } from "../atoms";
+import AppContext from "../../context/AppContext";
+
+export const SelectMode = () => {
+  const { style, darkMode, setDarkMode } = useContext(AppContext);
+
+  return (
+    <section className={style.navSection}>
+      <ToggleSun size="1.5em" color="black" />
+      <button onClick={() => setDarkMode(!darkMode)}>
+        <Button
+          height="3em"
+          width="3em"
+          colorON="#6a85b6"
+          colorOFF="gray"
+          toggle={darkMode ? "ON" : "OFF"}
+        />
+      </button>
+      <ToggleMoon size="1.5em" color="black" />
+    </section>
+  );
+};
+```
+
+components/molecules/SelectStorage.jsx:
+
+```js
+import { useContext } from "react";
+import { Button, ToggleCloud, ToggleLocal } from "../atoms";
+import AppContext from "../../context/AppContext";
+
+export const SelectStorage = () => {
+  const { style, isLocal, setIsLocal } = useContext(AppContext);
+  return (
+    <section className={style.navSection}>
+      <ToggleLocal size="1.5em" />
+      <button onClick={() => setIsLocal(!isLocal)}>
+        <Button
+          height="3em"
+          width="3em"
+          colorON="#48bbae"
+          colorOFF="#d65d6d"
+          toggle={isLocal ? "OFF" : "ON"}
+        />
+      </button>
+      <ToggleCloud size="1.5em" />
+    </section>
+  );
+};
+```
+
+Hooks -
+
+Remote -
+
+hooks/createTodoAction.js:
+
+```js
+const createTodoAction = async (
+  e,
+  inputValue,
+  setInputValue,
+  addDoc,
+  collection,
+  db
+) => {
+  e.preventDefault();
+  if (inputValue === "") {
+    alert("Please enter a value");
+    return;
+  }
+  await addDoc(collection(db, "todos"), {
+    task: inputValue,
+    completed: false,
+  });
+  setInputValue("");
+};
+
+export default createTodoAction;
+```
+
+hooks/readTodoAction.js:
+
+```js
+const readTodoAction = async (setTodos, query, collection, db, onSnapshot) => {
+  const q = await query(collection(db, "todos"));
+  const unsubscribe = await onSnapshot(q, (querySnapshot) => {
+    let todosArr = [];
+    querySnapshot.forEach((doc) => {
+      todosArr.push({ ...doc.data(), id: doc.id });
+    });
+    setTodos(todosArr);
+  });
+  return () => unsubscribe();
+};
+
+export default readTodoAction;
+```
+
+hooks/updateTodoAction.js:
+
+```js
+const updateTodoAction = async (todo, updateDoc, doc, db) => {
+  await updateDoc(doc(db, "todos", todo.id), {
+    completed: !todo.completed,
+  });
+};
+
+export default updateTodoAction;
+```
+
+hooks/deleteTodoAction.js:
+
+```js
+const deleteTodoAction = async (id, deleteDoc, doc, db) => {
+  await deleteDoc(doc(db, "todos", id));
+};
+
+export default deleteTodoAction;
+```
+
+Local -
+
+hooks/createTodoLocalAction.js:
+
+```js
+const createTodoLocalAction = (
+  e,
+  todos,
+  setTodos,
+  inputValue,
+  setInputValue
+) => {
+  e.preventDefault();
+  if (inputValue === "") {
+    alert("Please enter a value");
+    return;
+  }
+
+  const newTodoId = todos.length < 1 ? 1 : todos[todos.length - 1].id + 1;
+  const newTodo = {
+    id: newTodoId,
+    completed: false,
+    task: inputValue,
+  };
+  const newTodos = [...todos, newTodo];
+  const sortedTodos = newTodos.sort((a, b) => a.id - b.id);
+  setTodos(sortedTodos);
+  localStorage.setItem("todos", JSON.stringify(sortedTodos));
+  setInputValue("");
+};
+
+export default createTodoLocalAction;
+```
+
+hooks/readTodoLocalAction.js:
+
+```js
+const readTodoLocalAction = (setTodos) => {
+  const localData = JSON.parse(localStorage.getItem("todos"));
+  localData ? setTodos(localData) : setTodos([]);
+};
+
+export default readTodoLocalAction;
+```
+
+hooks/updateTodoLocalAction.js:
+
+```js
+const updateTodoLocalAction = (todo, todos, setTodos) => {
+  const todoId = todo.id;
+  const unalteredTodos = todos.filter((todo) => todo.id !== todoId);
+  const newTodos = [
+    ...unalteredTodos,
+    {
+      id: todoId,
+      completed: !todo.completed,
+      task: todo.task,
+    },
+  ];
+  const sortedTodos = newTodos.sort((a, b) => a.id - b.id);
+  setTodos(sortedTodos);
+  localStorage.setItem("todos", JSON.stringify(sortedTodos));
+};
+
+export default updateTodoLocalAction;
+```
+
+hooks/deleteTodoLocalAction.js:
+
+```js
+const deleteTodoLocalAction = (id, todos, setTodos) => {
+  const unalteredTodos = todos.filter((todo) => todo.id !== id);
+  const sortedTodos = unalteredTodos.sort((a, b) => a.id - b.id);
+  setTodos(sortedTodos);
+  localStorage.setItem("todos", JSON.stringify(sortedTodos));
+};
+
+export default deleteTodoLocalAction;
+```
+
+tailwind.config.js:
+
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [
+    function ({ addVariant }) {
+      addVariant("child", "& > *");
+      addVariant("child-hover", "& > *:hover");
+    },
+  ],
+};
+```
+
+package.json:
+
+```js
+{
+  "name": "todo-react-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "firebase": "^9.15.0",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.2.4"
+  }
+}
+```
+
+.gitignore:
+
 ```bs
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 ```
 
-```js
+```bs
+# Created by https://www.toptal.com/developers/gitignore/api/react
+# Edit at https://www.toptal.com/developers/gitignore?templates=react
 
-```
+### react ###
+.DS_*
+*.log
+logs
+**/*.backup.*
+**/*.back.*
 
-```js
+node_modules
+bower_components
 
-```
+*.sublime*
 
-```js
+psd
+thumb
+sketch
 
-```
-
-```js
-
+# End of https://www.toptal.com/developers/gitignore/api/react
 ```
 
 </details>
