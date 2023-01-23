@@ -3947,6 +3947,12 @@ citiesRef.where("population", ">", 100000).orderBy("population");
 <details>
   <summary>37. Completed Project</summary>
 
+Install Prop-types:
+
+```bs
+npm install prop-types
+```
+
 config/firebase.js:
 
 ```js
